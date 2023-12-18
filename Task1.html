@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <script>
+class date1 {
+  constructor(year, month, day, hours = 0, minutes = 0, seconds = 0, milliseconds = 0) {
+    this.date = new Date(year, month - 1, day, hours, minutes, seconds, milliseconds);
+  }
+
+  displayDate() {
+    let monthNames = [
+      "января", "февраля", "марта", "апреля",
+      "мая", "июня", "июля", "августа",
+      "сентября", "октября", "ноября", "декабря"
+    ];
+
+    let day = this.date.getDate();
+    let month = monthNames[this.date.getMonth()];
+    let year = this.date.getFullYear();
+
+    return `${day} ${month} ${year}`;
+  }
+}
+
+class ExtendedDate extends date1 {
+  constructor(year, month, day) {
+    super(year, month, day);
+  }
+
+  formatDateText() {
+    let monthNames = [
+      "января", "февраля", "марта", "апреля",
+      "мая", "июня", "июля", "августа",
+      "сентября", "октября", "ноября", "декабря"
+    ];
+
+    let day = this.date.getDate();
+    let month = monthNames[this.date.getMonth()];
+    return `${day} ${month}`;
+  }
+
+  isFutureDate() {
+    let currentDate = new Date();
+    return this.date.getTime() >= currentDate.getTime();
+  }
+
+  isLeapYear() {
+    let year = this.date.getFullYear();
+    return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+  }
+
+  getNextDate() {
+    let nextDay = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() + 1);
+    return new date1(nextDay.getFullYear(), nextDay.getMonth() + 1, nextDay.getDate());
+  }
+}
+
+let extendedDate = new ExtendedDate(2023, 12, 12);
+
+document.body.innerHTML += `
+  <p>Форматированная дата: ${extendedDate.formatDateText()}</p>
+  <p>Это будущая дата? ${extendedDate.isFutureDate()}</p>
+  <p>Это высокосный год? ${extendedDate.isLeapYear()}</p>
+  <p>Следующая дата: ${extendedDate.getNextDate().displayDate()}</p>
+`;
+    </script>
+</body>
+</html>

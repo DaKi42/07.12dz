@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <script>
+class Marker {
+  constructor(color, inkLevel) {
+    this.color = color;
+    this.inkLevel = inkLevel;
+  }
+
+  print(text) {
+    let output = "";
+    for (let i = 0; i < text.length; i++) {
+      if (text[i] !== ' ' && this.inkLevel > 0) {
+        output += `<span style="color: ${this.color};">${text[i]}</span>`;
+        this.inkLevel -= 0.5;
+      } else {
+        output += text[i];
+      }
+    }
+    document.body.innerHTML += `<p>${output}</p>`;
+  }
+}
+
+class RefillableMarker extends Marker {
+  constructor(color, inkLevel, capacity) {
+    super(color, inkLevel);
+    this.capacity = capacity;
+  }
+
+  refill() {
+    this.inkLevel = this.capacity;
+    document.body.innerHTML += `<p>${this.color} маркер заправлен!</p>`;
+  }
+}
+
+let simpleMarker = new Marker("blue", 50);
+simpleMarker.print("Пример текста для печати");
+
+let refillableMarker = new RefillableMarker("red", 20, 100);
+refillableMarker.print("Еще текст");
+refillableMarker.refill();
+refillableMarker.print("Печать после заправки");
+    </script>
+</body>
+</html>
